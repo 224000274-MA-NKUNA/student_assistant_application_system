@@ -1,5 +1,5 @@
 // lib/views/student/profile_screen.dart
-
+// Modified by: Student 4 - Added profile picture upload
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
