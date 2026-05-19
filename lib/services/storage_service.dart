@@ -1,5 +1,8 @@
-// lib/services/storage_service.dart
-
+/* 
+Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+Questions: StorageService class handles all interactions with Supabase Storage, including uploading documents and profile pictures.
+*/ 
 
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,7 +12,7 @@ import '../config/supabase_config.dart';
 class StorageService {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  // For mobile/desktop: Upload using XFile
+  // For mobile/desktop: User upload using XFile
   Future<String?> uploadDocument(String userId, String documentType, XFile file) async {
     try {
       debugPrint('========== UPLOADING $documentType ==========');
