@@ -1,5 +1,3 @@
-// lib/views/student/application_form_screen.dart
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +22,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
   final _firstModuleReasonController = TextEditingController();
   final _secondModuleReasonController = TextEditingController();
 
-  // Student's current academic status
+  // Student current academic status
   String? _selectedYearLevel;
   String? _selectedSemester;
   
@@ -101,7 +99,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
     },
   };
 
-  // Get all completed modules from previous semesters in reverse order (newest first)
+  // Get all completed modules from previous semesters in reverse order from newest first
   List<Map<String, dynamic>> get _completedModules {
     if (_selectedYearLevel == null || _selectedSemester == null) {
       return [];
@@ -258,7 +256,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
   }
 
   Future<void> _submitForm() async {
-    // Step 1: Form validation
+    // Form validation
     if (!_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fix errors above'), backgroundColor: Colors.red),
@@ -266,7 +264,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       return;
     }
     
-    // Step 2: Check required documents
+    //Check required documents
     if (_cvUrl.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please upload your CV'), backgroundColor: Colors.red),
@@ -280,7 +278,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       return;
     }
     
-    // Step 3: Validate subjects are different
+    // Validate subjects that are different
     if (_hasSecondSubject && _selectedFirstSubject == _selectedSecondSubject) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('First and second subjects must be different'), backgroundColor: Colors.red),
@@ -288,7 +286,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       return;
     }
     
-    // Step 4: Get ViewModels
+    // Get ViewModels
     final authVM = context.read<AuthViewModel>();
     final appVM = context.read<ApplicationViewModel>();
     
@@ -300,7 +298,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       return;
     }
     
-    // Step 5: Check for existing pending application
+    // Check for existing pending application
     if (appVM.hasPendingApplication && widget.application == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('You already have a pending application'), backgroundColor: Colors.red),
@@ -310,7 +308,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
     
     setState(() => _isSubmitting = true);
     
-    // Step 6: Create application object
+    // Create application object
     final application = ApplicationModel(
       id: widget.application?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
       userId: userId,
@@ -342,7 +340,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
       updatedAt: DateTime.now(),
     );
     
-    // Step 7: Submit or update
+    // Submit or update
     bool success;
     if (widget.application != null) {
       success = await appVM.updateApplication(application);
@@ -352,7 +350,7 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
     
     setState(() => _isSubmitting = false);
     
-    // Step 8: Handle result
+    // Handle result
     if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -387,9 +385,9 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // =============================================
+                  
                   // STUDENT INFORMATION CARD
-                  // =============================================
+
                   Card(
                     color: Colors.blue[50],
                     child: Padding(
@@ -408,9 +406,8 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                   ),
                   const SizedBox(height: 24),
                   
-                  // =============================================
                   // CURRENT ACADEMIC STATUS SECTION
-                  // =============================================
+                  
                   _buildSectionHeader('Your Current Academic Status', required: true),
                   const SizedBox(height: 8),
                   Container(
@@ -476,9 +473,8 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                   ),
                   const SizedBox(height: 24),
                   
-                  // =============================================
                   // LAST 5 COMPLETED MODULES SECTION
-                  // =============================================
+               
                   if (_selectedYearLevel != null && _selectedSemester != null) ...[
                     _buildSectionHeader('Your Recently Completed Modules', required: false),
                     const SizedBox(height: 8),
@@ -620,9 +616,8 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                   ],
                   const SizedBox(height: 24),
                   
-                  // =============================================
                   // SELECT SUBJECT SECTION
-                  // =============================================
+                
                   if (_selectedYearLevel != null && _selectedSemester != null && _availableSubjects.isNotEmpty) ...[
                     _buildSectionHeader('Select Subject to Assist', required: true),
                     const SizedBox(height: 16),
@@ -655,9 +650,9 @@ class _ApplicationFormScreenState extends State<ApplicationFormScreen> {
                   ],
                   const SizedBox(height: 24),
                   
-                  // =============================================
+                
                   // SECOND SUBJECT SECTION (OPTIONAL)
-                  // =============================================
+                  
                   if (_selectedFirstSubject != null && _availableSubjects.length > 1) ...[
                     _buildSectionHeader('Second Subject (Optional)'),
                     const SizedBox(height: 8),
