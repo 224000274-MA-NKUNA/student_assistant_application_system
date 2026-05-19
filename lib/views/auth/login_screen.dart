@@ -1,5 +1,8 @@
-// lib/views/auth/login_screen.dart
-
+/* 
+Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+Questions: Login screen provides authentication for both students and admin users. Includes toggle for student/admin login, validation, and redirects based on user role.
+*/
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_assistant_app/route_manager.dart';
@@ -80,10 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 40),
-                  
-                  // =============================================
-                  // SQUARE LOGO IMAGE
-                  // =============================================
                   Center(
                     child: Container(
                       height: 120,
@@ -124,10 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(fontSize: 18, color: Colors.grey),
                   ),
                   const SizedBox(height: 48),
-                  
-                  // =============================================
-                  // LOGIN TYPE TOGGLE (Student / Admin)
-                  // =============================================
                   Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
@@ -191,10 +186,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  
-                  // =============================================
-                  // LOGIN FORM
-                  // =============================================
                   Form(
                     key: _formKey,
                     child: Column(
@@ -227,8 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           validator: AppValidators.validatePassword,
                         ),
-                        
-                        // Admin Secret Code (only visible when admin login selected)
                         if (_isAdminLogin) ...[
                           const SizedBox(height: 16),
                           TextFormField(
@@ -248,10 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                         ],
-                        
                         const SizedBox(height: 24),
-                        
-                        // Login Button
                         ElevatedButton(
                           onPressed: authVM.isLoading ? null : _login,
                           style: ElevatedButton.styleFrom(
@@ -267,8 +253,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                
-                  
                   const SizedBox(height: 20),
                 ],
               ),
