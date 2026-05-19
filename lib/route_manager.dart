@@ -1,5 +1,8 @@
-// lib/routes/route_manager.dart
-
+/* 
+Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+Questions: RouteManager centralizes all navigation routes, defines route constants, and handles dynamic route generation with arguments.
+*/
 import 'package:flutter/material.dart';
 import '../views/auth/login_screen.dart';
 import '../views/student/student_home_screen.dart';

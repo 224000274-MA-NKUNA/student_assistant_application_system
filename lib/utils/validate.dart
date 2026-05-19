@@ -1,4 +1,8 @@
-// GROUP MEMBERS: [Add your names and student numbers here]
+/* 
+Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+Questions: AppValidators class provides static methods for validating user input across the app.
+*/ 
 
 class AppValidators {
   static String? validateEmail(String? value) {
