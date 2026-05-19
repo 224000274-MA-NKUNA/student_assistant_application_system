@@ -343,7 +343,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // ✅ OPTIMIZED: No FutureBuilder - uses cached bytes
+  // OPTIMIZED: No FutureBuilder - uses cached bytes
   Widget _buildProfileImage() {
     // Show selected image from cached bytes
     if (_imageBytes != null) {
