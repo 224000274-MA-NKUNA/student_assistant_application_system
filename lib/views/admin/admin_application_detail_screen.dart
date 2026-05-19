@@ -1,5 +1,9 @@
 // lib/views/admin/admin_application_detail_screen.dart
-
+/* 
+Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+Questions: admin_application_details_screen.dart
+*/
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:student_assistant_app/models/application_models.dart';
@@ -11,10 +15,12 @@ class AdminApplicationDetailScreen extends StatefulWidget {
   const AdminApplicationDetailScreen({super.key, required this.applicationId});
 
   @override
-  State<AdminApplicationDetailScreen> createState() => _AdminApplicationDetailScreenState();
+  State<AdminApplicationDetailScreen> createState() =>
+      _AdminApplicationDetailScreenState();
 }
 
-class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScreen> {
+class _AdminApplicationDetailScreenState
+    extends State<AdminApplicationDetailScreen> {
   late ApplicationModel _application;
   bool _isLoading = true;
 
@@ -28,10 +34,9 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
     final appVM = context.read<ApplicationViewModel>();
     try {
       // Handle both int and string IDs
-      final app = appVM.applications.firstWhere((a) => 
-        a.id.toString() == widget.applicationId || 
-        a.id == widget.applicationId
-      );
+      final app = appVM.applications.firstWhere((a) =>
+          a.id.toString() == widget.applicationId ||
+          a.id == widget.applicationId);
       _application = app;
     } catch (e) {
       print('Application not found: ${widget.applicationId}');
@@ -55,7 +60,7 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Application Details'), 
+        title: const Text('Application Details'),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
@@ -67,7 +72,7 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
             // Status Banner
             _buildStatusBanner(),
             const SizedBox(height: 16),
-            
+
             // Student Information
             _buildInfoCard('Student Information', [
               _buildRow('Student Number', _application.studentNumber),
@@ -76,14 +81,14 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
               _buildRow('Year of Study', _application.yearOfStudy.toString()),
             ]),
             const SizedBox(height: 16),
-            
+
             // First Module
             _buildInfoCard('First Module', [
               _buildRow('Level', _application.firstModuleLevel),
               _buildRow('Module', _application.firstModuleName),
               _buildRow('Reason', _application.firstModuleReason),
             ]),
-            
+
             if (_application.hasSecondModule) ...[
               const SizedBox(height: 16),
               _buildInfoCard('Second Module', [
@@ -92,29 +97,30 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
                 _buildRow('Reason', _application.secondModuleReason ?? ''),
               ]),
             ],
-            
+
             const SizedBox(height: 16),
-            
+
             // All Documents Section
             _buildInfoCard('Supporting Documents', [
               _buildDocumentRow('CV', _application.cvUrl),
-              _buildDocumentRow('Academic Record', _application.academicRecordUrl),
-              _buildDocumentRow('Matric Certificate', _application.matricCertificateUrl),
+              _buildDocumentRow(
+                  'Academic Record', _application.academicRecordUrl),
+              _buildDocumentRow(
+                  'Matric Certificate', _application.matricCertificateUrl),
               _buildDocumentRow('ID Document', _application.idDocumentUrl),
             ]),
-            
+
             if (_application.rejectionReason != null) ...[
               const SizedBox(height: 16),
               _buildInfoCard('Rejection Reason', [
                 Text(_application.rejectionReason!),
               ]),
             ],
-            
+
             const SizedBox(height: 24),
-            
+
             // Admin Actions (if status is pending)
-            if (_application.status == 'pending')
-              _buildAdminActions(),
+            if (_application.status == 'pending') _buildAdminActions(),
           ],
         ),
       ),
@@ -125,7 +131,7 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
     Color statusColor;
     IconData statusIcon;
     String statusText = _application.status.toUpperCase();
-    
+
     switch (_application.status) {
       case 'approved':
         statusColor = Colors.green;
@@ -139,7 +145,7 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
         statusColor = Colors.orange;
         statusIcon = Icons.pending;
     }
-    
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -154,11 +160,12 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Application Status', style: TextStyle(fontSize: 12, color: Colors.grey)),
+              const Text('Application Status',
+                  style: TextStyle(fontSize: 12, color: Colors.grey)),
               Text(
                 statusText,
                 style: TextStyle(
-                  fontSize: 18, 
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: statusColor,
                 ),
@@ -172,7 +179,7 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
 
   Widget _buildAdminActions() {
     final appVM = context.read<ApplicationViewModel>();
-    
+
     return Card(
       color: Colors.blue[50],
       child: Padding(
@@ -194,7 +201,8 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Approve Application'),
-                          content: const Text('Are you sure you want to approve this application?'),
+                          content: const Text(
+                              'Are you sure you want to approve this application?'),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context, false),
@@ -202,18 +210,22 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
                             ),
                             TextButton(
                               onPressed: () => Navigator.pop(context, true),
-                              style: TextButton.styleFrom(foregroundColor: Colors.green),
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.green),
                               child: const Text('Approve'),
                             ),
                           ],
                         ),
                       );
-                      
+
                       if (confirmed == true) {
-                        await appVM.approveApplication(_application.id.toString());
+                        await appVM
+                            .approveApplication(_application.id.toString());
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Application approved!'), backgroundColor: Colors.green),
+                            const SnackBar(
+                                content: Text('Application approved!'),
+                                backgroundColor: Colors.green),
                           );
                           Navigator.pop(context, true);
                         }
@@ -239,7 +251,8 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Text('Please provide a reason for rejection:'),
+                              const Text(
+                                  'Please provide a reason for rejection:'),
                               const SizedBox(height: 12),
                               TextField(
                                 controller: reasonController,
@@ -258,18 +271,23 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
                             ),
                             TextButton(
                               onPressed: () => Navigator.pop(context, true),
-                              style: TextButton.styleFrom(foregroundColor: Colors.red),
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.red),
                               child: const Text('Reject'),
                             ),
                           ],
                         ),
                       );
-                      
-                      if (confirmed == true && reasonController.text.isNotEmpty) {
-                        await appVM.rejectApplication(_application.id.toString(), reasonController.text);
+
+                      if (confirmed == true &&
+                          reasonController.text.isNotEmpty) {
+                        await appVM.rejectApplication(
+                            _application.id.toString(), reasonController.text);
                         if (mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Application rejected!'), backgroundColor: Colors.red),
+                            const SnackBar(
+                                content: Text('Application rejected!'),
+                                backgroundColor: Colors.red),
                           );
                           Navigator.pop(context, true);
                         }
@@ -297,9 +315,13 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text(title,
+                style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.deepPurple)),
             const Divider(thickness: 1),
             const SizedBox(height: 8),
             ...children,
@@ -316,9 +338,9 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 120, 
+            width: 120,
             child: Text(
-              '$label:', 
+              '$label:',
               style: const TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
@@ -354,15 +376,17 @@ class _AdminApplicationDetailScreenState extends State<AdminApplicationDetailScr
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      url != null && url.isNotEmpty 
-                          ? 'View Document' 
+                      url != null && url.isNotEmpty
+                          ? 'View Document'
                           : 'No file uploaded',
                       style: TextStyle(
-                        color: url != null && url.isNotEmpty ? Colors.blue : Colors.grey,
+                        color: url != null && url.isNotEmpty
+                            ? Colors.blue
+                            : Colors.grey,
                       ),
                     ),
                   ),
-                  if (url != null && url.isNotEmpty) 
+                  if (url != null && url.isNotEmpty)
                     const Icon(Icons.open_in_new, size: 16, color: Colors.blue),
                 ],
               ),
