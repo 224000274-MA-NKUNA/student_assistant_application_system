@@ -1,4 +1,8 @@
-// lib/views/admin/admin_dashboard_screen.dart
+/* 
+Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+Questions: AdminDashboardScreen
+*/
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,7 +49,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     }
     if (_searchController.text.isNotEmpty) {
       final query = _searchController.text.toLowerCase();
-      apps = apps.where((a) => a.fullName.toLowerCase().contains(query) || a.studentNumber.contains(query)).toList();
+      apps = apps
+          .where((a) =>
+              a.fullName.toLowerCase().contains(query) ||
+              a.studentNumber.contains(query))
+          .toList();
     }
     return apps;
   }
@@ -62,17 +70,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             const Text('Please provide a reason:'),
             const SizedBox(height: 12),
             TextField(
-              controller: reasonController, 
-              decoration: const InputDecoration(hintText: 'Rejection reason...'), 
+              controller: reasonController,
+              decoration:
+                  const InputDecoration(hintText: 'Rejection reason...'),
               maxLines: 3,
             ),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel')),
           TextButton(
             onPressed: () async {
-              await appVM.rejectApplication(applicationId, reasonController.text);
+              await appVM.rejectApplication(
+                  applicationId, reasonController.text);
               _loadData();
               if (mounted) Navigator.pop(context);
             },
@@ -180,13 +192,12 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Drawer Items - NO PROFILE ITEM
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      
                       _buildDrawerItem(
                         icon: Icons.people_outline,
                         title: 'All Applications',
@@ -225,7 +236,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                         },
                       ),
                       const Divider(height: 32, thickness: 1),
-                      
                       _buildDrawerItem(
                         icon: Icons.logout,
                         title: 'Logout',
@@ -270,7 +280,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                             padding: const EdgeInsets.all(8),
                             itemCount: _getFilteredApplications(appVM).length,
                             itemBuilder: (context, index) {
-                              final app = _getFilteredApplications(appVM)[index];
+                              final app =
+                                  _getFilteredApplications(appVM)[index];
                               return _buildApplicationCard(app, appVM);
                             },
                           ),
@@ -328,8 +339,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           child: Column(
             children: [
               Text(
-                count.toString(), 
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color),
+                count.toString(),
+                style: TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold, color: color),
               ),
               Text(title, style: const TextStyle(fontSize: 12)),
             ],
@@ -345,8 +357,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       child: TextField(
         controller: _searchController,
         decoration: const InputDecoration(
-          hintText: 'Search by name or student number', 
-          prefixIcon: Icon(Icons.search), 
+          hintText: 'Search by name or student number',
+          prefixIcon: Icon(Icons.search),
           border: OutlineInputBorder(),
         ),
       ),
@@ -360,8 +372,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       child: Row(
         children: [
           FilterChip(
-            label: const Text('All'), 
-            selected: _statusFilter == 'all', 
+            label: const Text('All'),
+            selected: _statusFilter == 'all',
             onSelected: (_) => setState(() => _statusFilter = 'all'),
             backgroundColor: Colors.grey[200],
             selectedColor: Colors.blue.withOpacity(0.2),
@@ -369,24 +381,24 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           ),
           const SizedBox(width: 8),
           FilterChip(
-            label: const Text('Pending'), 
-            selected: _statusFilter == 'pending', 
+            label: const Text('Pending'),
+            selected: _statusFilter == 'pending',
             onSelected: (_) => setState(() => _statusFilter = 'pending'),
             backgroundColor: Colors.grey[200],
             selectedColor: Colors.orange.withOpacity(0.2),
           ),
           const SizedBox(width: 8),
           FilterChip(
-            label: const Text('Approved'), 
-            selected: _statusFilter == 'approved', 
+            label: const Text('Approved'),
+            selected: _statusFilter == 'approved',
             onSelected: (_) => setState(() => _statusFilter = 'approved'),
             backgroundColor: Colors.grey[200],
             selectedColor: Colors.green.withOpacity(0.2),
           ),
           const SizedBox(width: 8),
           FilterChip(
-            label: const Text('Rejected'), 
-            selected: _statusFilter == 'rejected', 
+            label: const Text('Rejected'),
+            selected: _statusFilter == 'rejected',
             onSelected: (_) => setState(() => _statusFilter = 'rejected'),
             backgroundColor: Colors.grey[200],
             selectedColor: Colors.red.withOpacity(0.2),
@@ -396,9 +408,10 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     );
   }
 
-  Widget _buildApplicationCard(ApplicationModel app, ApplicationViewModel appVM) {
-    Color statusColor = app.status == 'approved' 
-        ? Colors.green 
+  Widget _buildApplicationCard(
+      ApplicationModel app, ApplicationViewModel appVM) {
+    Color statusColor = app.status == 'approved'
+        ? Colors.green
         : (app.status == 'rejected' ? Colors.red : Colors.orange);
 
     return Card(
@@ -408,17 +421,22 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         onTap: () => Navigator.push(
-          context, 
-          MaterialPageRoute(builder: (_) => AdminApplicationDetailScreen(applicationId: app.id.toString()))
-        ).then((_) => _loadData()),
+                context,
+                MaterialPageRoute(
+                    builder: (_) => AdminApplicationDetailScreen(
+                        applicationId: app.id.toString())))
+            .then((_) => _loadData()),
         leading: CircleAvatar(
           backgroundColor: statusColor.withOpacity(0.1),
           child: Icon(
-            app.status == 'approved' ? Icons.check : (app.status == 'rejected' ? Icons.close : Icons.pending),
+            app.status == 'approved'
+                ? Icons.check
+                : (app.status == 'rejected' ? Icons.close : Icons.pending),
             color: statusColor,
           ),
         ),
-        title: Text(app.fullName, style: const TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(app.fullName,
+            style: const TextStyle(fontWeight: FontWeight.bold)),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -429,21 +447,25 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
         ),
         trailing: app.status == 'pending'
             ? Row(
-                mainAxisSize: MainAxisSize.min, 
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.check_circle, color: Colors.green), 
+                    icon: const Icon(Icons.check_circle, color: Colors.green),
                     onPressed: () async {
                       final confirmed = await showDialog<bool>(
                         context: context,
                         builder: (context) => AlertDialog(
                           title: const Text('Approve Application'),
-                          content: Text('Approve ${app.fullName}\'s application for ${app.firstModuleName}?'),
+                          content: Text(
+                              'Approve ${app.fullName}\'s application for ${app.firstModuleName}?'),
                           actions: [
-                            TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+                            TextButton(
+                                onPressed: () => Navigator.pop(context, false),
+                                child: const Text('Cancel')),
                             TextButton(
                               onPressed: () => Navigator.pop(context, true),
-                              style: TextButton.styleFrom(foregroundColor: Colors.green),
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.green),
                               child: const Text('Approve'),
                             ),
                           ],
@@ -456,20 +478,25 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                     },
                   ),
                   IconButton(
-                    icon: const Icon(Icons.cancel, color: Colors.red), 
-                    onPressed: () => _showRejectDialog(app.id.toString(), appVM),
+                    icon: const Icon(Icons.cancel, color: Colors.red),
+                    onPressed: () =>
+                        _showRejectDialog(app.id.toString(), appVM),
                   ),
                 ],
               )
             : Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: statusColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   app.status.toUpperCase(),
-                  style: TextStyle(color: statusColor, fontSize: 12, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: statusColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
       ),
