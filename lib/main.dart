@@ -11,20 +11,18 @@ import 'config/supabase_config.dart';
 
 /// Async entry point — must initialise Supabase before runApp.(MA NKUNA)
 // Ensure Flutter engine is ready before calling platform channels.(MA-NKUNA)
-  WidgetsFlutterBinding.ensureInitialized();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Supabase.initialize(
     url: SupabaseConfig.url,
     anonKey: SupabaseConfig.anonKey,
-  );// Connect the Supabase client using the project URL and anon key.(MA-NKUNA)
-  
- 
-  /// Root widget. Sets up global Providers and the MaterialApp.(MA-NKUNA)
-class MyApp extends StatelessWidget
+  ); // Connect the Supabase client using the project URL and anon key.(MA-NKUNA)
   runApp(const MyApp());
 }
+
+/// Root widget. Sets up global Providers and the MaterialApp.(MA-NKUNA)
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -39,7 +37,7 @@ class MyApp extends StatelessWidget {
         // ApplicationViewModel manages the list of applications for the(MA-NKUNA)
         // current user (or all applications for an admin).(MA-NKUNA)
         ChangeNotifierProvider(create: (_) => ApplicationViewModel()),
-         // StudentViewModel mirrors student-specific state derived from AuthViewModel(MA-NKUNA)
+        // StudentViewModel mirrors student-specific state derived from AuthViewModel(MA-NKUNA)
         ChangeNotifierProvider(create: (_) => StudentViewModel()),
       ],
       // Consumer<AuthViewModel> rebuilds whenever auth state changes so the(MA-NKUNA)
