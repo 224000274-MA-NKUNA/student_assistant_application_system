@@ -1,4 +1,8 @@
-// lib/utils/student_validators.dart
+/* 
+Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+Questions: StudentValidators class provides static methods for validating student application inputs.
+*/ 
 
 class StudentValidators {
   // Module level validation
