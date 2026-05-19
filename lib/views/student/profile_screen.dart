@@ -1,5 +1,8 @@
 // lib/views/student/profile_screen.dart
 
+// Student Numbers: 223046876, 223000460, 223050336, 223040081, 224000274, 224027806
+// Student Names: Lehlogonolo Moshoeu, Asanda Sithole, Sandile Pheko, Mvelo Masinga, Mponisi Nkuna, Cedric Motone
+
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
